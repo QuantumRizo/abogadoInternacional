@@ -1,0 +1,120 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    /* Paleta profesional de abogado */
+    --navy: 210 65% 11%; /* Azul marino #0a1a2f */
+    --gold: 38 48% 60%; /* Dorado suave #c9a86a */
+    --white: 0 0% 100%; /* Blanco puro */
+    --gray-light: 0 0% 96%; /* Gris profesional #f4f4f4 */
+    --navy-light: 210 50% 20%; /* Azul marino claro para variantes */
+    
+    --background: var(--white);
+    --foreground: var(--navy);
+
+    --card: var(--white);
+    --card-foreground: var(--navy);
+
+    --popover: var(--white);
+    --popover-foreground: var(--navy);
+
+    --primary: var(--navy);
+    --primary-foreground: var(--white);
+
+    --secondary: var(--gold);
+    --secondary-foreground: var(--navy);
+
+    --muted: var(--gray-light);
+    --muted-foreground: 210 30% 40%;
+
+    --accent: var(--gold);
+    --accent-foreground: var(--navy);
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: var(--white);
+
+    --border: 210 30% 85%;
+    --input: 210 30% 85%;
+    --ring: var(--gold);
+
+    --radius: 0.5rem;
+
+    --sidebar-background: var(--white);
+    --sidebar-foreground: var(--navy);
+    --sidebar-primary: var(--navy);
+    --sidebar-primary-foreground: var(--white);
+    --sidebar-accent: var(--gray-light);
+    --sidebar-accent-foreground: var(--navy);
+    --sidebar-border: 210 30% 85%;
+    --sidebar-ring: var(--gold);
+  }
+
+  .dark {
+    --background: var(--navy);
+    --foreground: var(--white);
+
+    --card: var(--navy-light);
+    --card-foreground: var(--white);
+
+    --popover: var(--navy-light);
+    --popover-foreground: var(--white);
+
+    --primary: var(--gold);
+    --primary-foreground: var(--navy);
+
+    --secondary: var(--navy-light);
+    --secondary-foreground: var(--white);
+
+    --muted: 210 40% 25%;
+    --muted-foreground: 210 20% 70%;
+
+    --accent: var(--gold);
+    --accent-foreground: var(--navy);
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: var(--white);
+
+    --border: 210 40% 25%;
+    --input: 210 40% 25%;
+    --ring: var(--gold);
+    
+    --sidebar-background: var(--navy);
+    --sidebar-foreground: var(--white);
+    --sidebar-primary: var(--gold);
+    --sidebar-primary-foreground: var(--navy);
+    --sidebar-accent: var(--navy-light);
+    --sidebar-accent-foreground: var(--white);
+    --sidebar-border: 210 40% 25%;
+    --sidebar-ring: var(--gold);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+@layer utilities {
+  .parallax-slow {
+    transform: translateY(calc(var(--scroll) * 0.5px));
+  }
+  
+  .parallax-fast {
+    transform: translateY(calc(var(--scroll) * -0.3px));
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+}
