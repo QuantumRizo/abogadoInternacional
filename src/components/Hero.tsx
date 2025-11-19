@@ -34,15 +34,23 @@ export function Hero() {
           Experto en Derecho Migratorio
         </h1>
         <p className="text-xl md:text-2xl text-primary-foreground/90 mb-8 max-w-2xl mx-auto text-balance">
-          Asesoría profesional para pasaportes mexicanos, visas americanas y programas de verano en Estados Unidos
-        </p>
-        <Button 
-          size="lg" 
-          onClick={() => navigate('/citas')}
-          className="bg-secondary text-secondary-foreground hover:bg-secondary/90 text-lg px-8 py-6 shadow-2xl hover:scale-105 transition-transform"
-        >
-          Agendar Cita
-        </Button>
+  Asesoría legal profesional para obtención de tus documentos de viaje y solución a tus situaciones legales. 
+</p>
+        <div className="flex flex-col gap-4 text-primary-foreground/90">
+  
+
+  <Button 
+    size="lg" 
+    onClick={() => navigate('/citas')}
+    className="bg-secondary text-secondary-foreground hover:bg-secondary/90 text-lg px-8 py-6 shadow-2xl hover:scale-105 transition-transform"
+  >
+    Agendar Cita
+  </Button>
+  <p className="text-lg leading-snug">
+  Do you need legal assistance in English? Make an appointment by clicking the “Agendar Cita” button above.
+</p>
+</div>
+
       </div>
 
       {/* Indicador de scroll */}

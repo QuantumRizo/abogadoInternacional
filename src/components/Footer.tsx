@@ -9,7 +9,7 @@ export function Footer() {
         <div className="grid md:grid-cols-3 gap-8 mb-8">
           {/* Información de contacto */}
           <div>
-            <h3 className="text-2xl font-bold mb-4 text-accent">José Alfredo Miranda Bello</h3>
+            <h3 className="text-2xl font-bold mb-4 text-accent">Alfredo Miranda</h3>
             <p className="text-primary-foreground/80 mb-4">
               Abogado especialista en derecho migratorio
             </p>
@@ -21,15 +21,15 @@ export function Footer() {
             <div className="space-y-3 text-primary-foreground/80">
               <div className="flex items-center gap-2">
                 <Phone className="w-4 h-4" />
-                <span>+52 (123) 456-7890</span>
+                <span>+52 222 102 5628</span>
               </div>
               <div className="flex items-center gap-2">
                 <Mail className="w-4 h-4" />
-                <span>contacto@mirandabello.com</span>
+                <span>abgalfmiranda@gmail.com</span>
               </div>
               <div className="flex items-center gap-2">
                 <MapPin className="w-4 h-4" />
-                <span>Ciudad de México, México</span>
+                <span>Puebla, Puebla</span>
               </div>
             </div>
           </div>
@@ -46,7 +46,7 @@ export function Footer() {
         </div>
 
         <div className="border-t border-primary-foreground/20 pt-8 text-center text-primary-foreground/60">
-          <p>&copy; {currentYear} José Alfredo Miranda Bello. Todos los derechos reservados.</p>
+          <p>&copy; {currentYear} Alfredo Miranda. Todos los derechos reservados.</p>
         </div>
       </div>
     </footer>
