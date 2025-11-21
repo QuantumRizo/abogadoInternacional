@@ -1,13 +1,16 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+  Card, CardContent, CardDescription, CardHeader, CardTitle
+} from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
-import { Calendar, X, LogOut } from 'lucide-react';
+import { Calendar, X, LogOut, Clock } from 'lucide-react';
 
 interface Appointment {
   id: string;
@@ -26,10 +29,20 @@ export default function Admin() {
   const [loginData, setLoginData] = useState({ email: '', password: '' });
   const [isLoading, setIsLoading] = useState(false);
 
+  // modal reagendar
+  const [rescheduleOpen, setRescheduleOpen] = useState(false);
+  const [selectedAppointment, setSelectedAppointment] = useState<Appointment | null>(null);
+  const [newDate, setNewDate] = useState('');
+  const [newTime, setNewTime] = useState('');
+  const [takenTimes, setTakenTimes] = useState<string[]>([]);
+
+  const availableTimes = [
+    "09:00", "10:00", "11:00", "12:00",
+    "13:00", "15:00", "16:00", "17:00"
+  ];
+
   useEffect(() => {
-    if (user) {
-      loadAppointments();
-    }
+    if (user) loadAppointments();
   }, [user]);
 
   const loadAppointments = async () => {
@@ -39,11 +52,18 @@ export default function Admin() {
       .order('date', { ascending: true })
       .order('time', { ascending: true });
 
-    if (error) {
-      toast.error('Error al cargar las citas');
-    } else {
-      setAppointments(data || []);
-    }
+    if (error) toast.error('Error al cargar las citas');
+    else setAppointments(data || []);
+  };
+
+  const loadTakenTimes = async (date: string) => {
+    const { data } = await supabase
+      .from('appointments')
+      .select('time')
+      .eq('date', date)
+      .eq('status', 'scheduled');
+
+    setTakenTimes(data?.map(d => d.time) || []);
   };
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -51,13 +71,8 @@ export default function Admin() {
     setIsLoading(true);
 
     const { error } = await signIn(loginData.email, loginData.password);
-    
-    if (error) {
-      toast.error('Error al iniciar sesión', {
-        description: error.message,
-      });
-    }
-    
+    if (error) toast.error(error.message);
+
     setIsLoading(false);
   };
 
@@ -67,11 +82,34 @@ export default function Admin() {
       .update({ status: 'cancelled' })
       .eq('id', id);
 
-    if (error) {
-      toast.error('Error al cancelar la cita');
-    } else {
-      toast.success('Cita cancelada exitosamente');
+    if (error) toast.error('Error al cancelar la cita');
+    else {
+      toast.success('Cita cancelada');
       loadAppointments();
+    }
+  };
+
+  const openReschedule = (appointment: Appointment) => {
+    setSelectedAppointment(appointment);
+    setNewDate(appointment.date);
+    setNewTime(appointment.time);
+    loadTakenTimes(appointment.date);
+    setRescheduleOpen(true);
+  };
+
+  const handleReschedule = async () => {
+    if (!selectedAppointment) return;
+
+    const { error } = await supabase
+      .from('appointments')
+      .update({ date: newDate, time: newTime })
+      .eq('id', selectedAppointment.id);
+
+    if (error) toast.error('Error al reagendar');
+    else {
+      toast.success('Cita reagendada correctamente');
+      loadAppointments();
+      setRescheduleOpen(false);
     }
   };
 
@@ -81,51 +119,34 @@ export default function Admin() {
   };
 
   if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
-          <p className="mt-4 text-muted-foreground">Cargando...</p>
-        </div>
-      </div>
-    );
+    return <div className="min-h-screen flex items-center justify-center">Cargando...</div>;
   }
 
   if (!user) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-muted px-4">
+      <div className="min-h-screen flex items-center justify-center px-4">
         <Card className="w-full max-w-md">
           <CardHeader>
             <CardTitle>Panel de Administración</CardTitle>
-            <CardDescription>Inicia sesión para gestionar las citas</CardDescription>
+            <CardDescription>Inicia sesión</CardDescription>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleLogin} className="space-y-4">
-              <div>
-                <Label htmlFor="email">Correo Electrónico</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  required
-                  value={loginData.email}
-                  onChange={(e) => setLoginData({ ...loginData, email: e.target.value })}
-                />
-              </div>
-
-              <div>
-                <Label htmlFor="password">Contraseña</Label>
-                <Input
-                  id="password"
-                  type="password"
-                  required
-                  value={loginData.password}
-                  onChange={(e) => setLoginData({ ...loginData, password: e.target.value })}
-                />
-              </div>
-
-              <Button type="submit" className="w-full" disabled={isLoading}>
-                {isLoading ? 'Iniciando sesión...' : 'Iniciar Sesión'}
-              </Button>
+              <Input
+                placeholder="Email"
+                type="email"
+                required
+                value={loginData.email}
+                onChange={(e) => setLoginData({ ...loginData, email: e.target.value })}
+              />
+              <Input
+                placeholder="Contraseña"
+                type="password"
+                required
+                value={loginData.password}
+                onChange={(e) => setLoginData({ ...loginData, password: e.target.value })}
+              />
+              <Button className="w-full" type="submit">Entrar</Button>
             </form>
           </CardContent>
         </Card>
@@ -135,81 +156,96 @@ export default function Admin() {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
+      {/* HEADER */}
       <div className="bg-primary text-primary-foreground py-6 px-4">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
-          <div>
-            <h1 className="text-3xl font-bold">Panel de Administración</h1>
-            <p className="text-primary-foreground/80 mt-1">{user.email}</p>
-          </div>
-          <Button
-            variant="ghost"
-            onClick={handleLogout}
-            className="text-primary-foreground hover:text-primary-foreground/90"
-          >
-            <LogOut className="w-4 h-4 mr-2" />
+          <h1 className="text-3xl font-bold">Panel de Administración</h1>
+          <Button variant="ghost" onClick={handleLogout}>
+            <LogOut className="mr-2 h-4 w-4" />
             Cerrar Sesión
           </Button>
         </div>
       </div>
 
-      {/* Contenido */}
-      <div className="max-w-7xl mx-auto px-4 py-12">
-        <div className="mb-8">
-          <h2 className="text-2xl font-semibold mb-4">Citas Agendadas</h2>
-        </div>
+      {/* LISTA DE CITAS */}
+      <div className="max-w-7xl mx-auto px-4 py-10">
+        <h2 className="text-2xl font-semibold mb-6">Citas Agendadas</h2>
 
         <div className="grid gap-4">
-          {appointments.length === 0 ? (
-            <Card>
-              <CardContent className="py-12 text-center">
-                <Calendar className="w-12 h-12 mx-auto text-muted-foreground mb-4" />
-                <p className="text-muted-foreground">No hay citas agendadas</p>
+          {appointments.map((a) => (
+            <Card key={a.id} className={a.status === 'cancelled' ? 'opacity-50' : ''}>
+              <CardContent className="py-4 flex justify-between items-center">
+                <div>
+                  <div className="font-semibold text-lg">{a.name}</div>
+                  <p className="text-sm text-muted-foreground">
+                    {a.date} — {a.time}
+                  </p>
+                </div>
+
+                {a.status === 'scheduled' && (
+                  <div className="flex gap-2">
+                    <Button variant="secondary" onClick={() => openReschedule(a)}>
+                      <Clock className="h-4 w-4 mr-1" /> Reagendar
+                    </Button>
+
+                    <Button variant="destructive" onClick={() => handleCancelAppointment(a.id)}>
+                      <X className="h-4 w-4 mr-1" />
+                      Cancelar
+                    </Button>
+                  </div>
+                )}
               </CardContent>
             </Card>
-          ) : (
-            appointments.map((appointment) => (
-              <Card
-                key={appointment.id}
-                className={appointment.status === 'cancelled' ? 'opacity-60' : ''}
-              >
-                <CardContent className="py-4">
-                  <div className="flex items-center justify-between">
-                    <div className="flex-1">
-                      <div className="flex items-center gap-4 mb-2">
-                        <div className="font-semibold text-lg">{appointment.name}</div>
-                        {appointment.status === 'cancelled' && (
-                          <span className="text-sm bg-destructive/10 text-destructive px-2 py-1 rounded">
-                            Cancelada
-                          </span>
-                        )}
-                      </div>
-                      <div className="grid md:grid-cols-3 gap-4 text-sm text-muted-foreground">
-                        <div>
-                          <Calendar className="w-4 h-4 inline mr-1" />
-                          {appointment.date} - {appointment.time}
-                        </div>
-                        <div>{appointment.phone}</div>
-                        <div>{appointment.email}</div>
-                      </div>
-                    </div>
-                    {appointment.status === 'scheduled' && (
-                      <Button
-                        variant="destructive"
-                        size="sm"
-                        onClick={() => handleCancelAppointment(appointment.id)}
-                      >
-                        <X className="w-4 h-4 mr-1" />
-                        Cancelar
-                      </Button>
-                    )}
-                  </div>
-                </CardContent>
-              </Card>
-            ))
-          )}
+          ))}
         </div>
       </div>
+
+      {/* MODAL REAGENDAR */}
+      <Dialog open={rescheduleOpen} onOpenChange={setRescheduleOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Reagendar Cita</DialogTitle>
+          </DialogHeader>
+
+          <div className="space-y-4">
+            <div>
+              <Label>Nueva Fecha</Label>
+              <Input
+                type="date"
+                value={newDate}
+                onChange={(e) => {
+                  setNewDate(e.target.value);
+                  loadTakenTimes(e.target.value);
+                }}
+              />
+            </div>
+
+            <div>
+              <Label>Nueva Hora</Label>
+              <div className="grid grid-cols-2 gap-2">
+                {availableTimes.map((t) => {
+                  const disabled = takenTimes.includes(t) && t !== selectedAppointment?.time;
+
+                  return (
+                    <Button
+                      key={t}
+                      variant={t === newTime ? 'default' : 'outline'}
+                      disabled={disabled}
+                      onClick={() => setNewTime(t)}
+                    >
+                      {t}
+                    </Button>
+                  );
+                })}
+              </div>
+            </div>
+
+            <Button className="w-full" onClick={handleReschedule}>
+              Guardar Cambios
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
