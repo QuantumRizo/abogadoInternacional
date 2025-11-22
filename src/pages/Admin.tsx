@@ -10,7 +10,8 @@ import { Label } from '@/components/ui/label';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
-import { Calendar, X, LogOut, Clock } from 'lucide-react';
+// 1. Agregamos Phone y Mail a los imports
+import { Calendar, X, LogOut, Clock, Phone, Mail } from 'lucide-react';
 
 interface Appointment {
   id: string;
@@ -146,7 +147,9 @@ export default function Admin() {
                 value={loginData.password}
                 onChange={(e) => setLoginData({ ...loginData, password: e.target.value })}
               />
-              <Button className="w-full" type="submit">Entrar</Button>
+              <Button className="w-full" type="submit" disabled={isLoading}>
+                {isLoading ? 'Entrando...' : 'Entrar'}
+              </Button>
             </form>
           </CardContent>
         </Card>
@@ -174,29 +177,60 @@ export default function Admin() {
         <div className="grid gap-4">
           {appointments.map((a) => (
             <Card key={a.id} className={a.status === 'cancelled' ? 'opacity-50' : ''}>
-              <CardContent className="py-4 flex justify-between items-center">
-                <div>
-                  <div className="font-semibold text-lg">{a.name}</div>
-                  <p className="text-sm text-muted-foreground">
-                    {a.date} — {a.time}
-                  </p>
+              {/* 2. Modificamos el CardContent para mostrar más datos */}
+              <CardContent className="py-4 flex flex-col sm:flex-row justify-between items-start gap-4">
+                
+                <div className="space-y-3 w-full">
+                  {/* Info Principal */}
+                  <div>
+                    <div className="font-semibold text-lg flex items-center gap-2">
+                      {a.name}
+                      {a.status === 'cancelled' && (
+                        <span className="text-xs bg-destructive/10 text-destructive px-2 py-0.5 rounded">Cancelada</span>
+                      )}
+                    </div>
+                    <p className="text-sm text-muted-foreground flex items-center gap-2 mt-1">
+                      <Calendar className="h-4 w-4" />
+                      {a.date} a las {a.time}
+                    </p>
+                  </div>
+
+                  {/* Info de Contacto (Nuevo) */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-2 border-t w-full max-w-lg">
+                    <div className="flex items-center text-sm text-muted-foreground">
+                      <Phone className="mr-2 h-3.5 w-3.5" />
+                      <a href={`tel:${a.phone}`} className="hover:text-primary hover:underline transition-colors">
+                        {a.phone}
+                      </a>
+                    </div>
+                    <div className="flex items-center text-sm text-muted-foreground">
+                      <Mail className="mr-2 h-3.5 w-3.5" />
+                      <a href={`mailto:${a.email}`} className="hover:text-primary hover:underline transition-colors">
+                        {a.email}
+                      </a>
+                    </div>
+                  </div>
                 </div>
 
+                {/* Botones de Acción */}
                 {a.status === 'scheduled' && (
-                  <div className="flex gap-2">
-                    <Button variant="secondary" onClick={() => openReschedule(a)}>
+                  <div className="flex gap-2 sm:flex-col md:flex-row w-full sm:w-auto pt-2 sm:pt-0">
+                    <Button variant="secondary" size="sm" onClick={() => openReschedule(a)}>
                       <Clock className="h-4 w-4 mr-1" /> Reagendar
                     </Button>
 
-                    <Button variant="destructive" onClick={() => handleCancelAppointment(a.id)}>
-                      <X className="h-4 w-4 mr-1" />
-                      Cancelar
+                    <Button variant="destructive" size="sm" onClick={() => handleCancelAppointment(a.id)}>
+                      <X className="h-4 w-4 mr-1" /> Cancelar
                     </Button>
                   </div>
                 )}
               </CardContent>
             </Card>
           ))}
+          
+          {appointments.length === 0 && (
+             <p className="text-muted-foreground text-center py-10">No hay citas agendadas aún.</p>
+          )}
         </div>
       </div>
 
