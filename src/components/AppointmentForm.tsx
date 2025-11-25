@@ -18,6 +18,7 @@ export function AppointmentForm({ date, time, onSuccess }: AppointmentFormProps)
     name: '',
     phone: '',
     email: '',
+    appointmentType: '', // NUEVO CAMPO
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -31,6 +32,7 @@ export function AppointmentForm({ date, time, onSuccess }: AppointmentFormProps)
         name: formData.name,
         phone: formData.phone,
         email: formData.email,
+        appointment_type: formData.appointmentType, // ENVIAR A SUPABASE
         status: 'scheduled',
       });
 
@@ -92,6 +94,19 @@ export function AppointmentForm({ date, time, onSuccess }: AppointmentFormProps)
               value={formData.email}
               onChange={(e) => setFormData({ ...formData, email: e.target.value })}
               placeholder="correo@ejemplo.com"
+            />
+          </div>
+
+          {/* NUEVO INPUT DE TIPO DE CITA */}
+          <div>
+            <Label htmlFor="appointmentType">Motivo / Tipo de Cita</Label>
+            <Input
+              id="appointmentType"
+              type="text"
+              required
+              value={formData.appointmentType}
+              onChange={(e) => setFormData({ ...formData, appointmentType: e.target.value })}
+              placeholder="Ej. Pasaporte, Visa, etc."
             />
           </div>
 
