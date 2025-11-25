@@ -17,30 +17,19 @@ const AutoCarousel = () => {
     return () => clearInterval(interval);
   }, []);
 
+  // NOTA: Cambié la className de section para quitar 'py-8 my-8' y que se alinee con el texto
   return (
-    <section className="w-full max-w-4xl mx-auto px-4 py-8 my-8">
-
-      {/* CONTENEDOR "INVISIBLE" 
-         1. Le quitamos el bg-gray (fondo gris).
-         2. Le quitamos el shadow (sombra de la caja).
-         3. Usamos flex justify-center para que la foto flote en medio.
-      */}
+    <section className="w-full h-full flex flex-col justify-center">
       <div className="relative w-full h-[500px] flex justify-center items-center">
         
         {/* FOTO */}
         <img
           src={SLIDES[currentIndex].url}
           alt={SLIDES[currentIndex].alt}
-          // CLAVE: 
-          // - max-h-full / max-w-full: La foto nunca se sale del área, pero tampoco se estira.
-          // - object-contain: Muestra la foto entera SIEMPRE.
-          // - shadow-2xl y rounded-xl: Se lo ponemos A LA IMAGEN, no a la caja.
           className="max-h-full max-w-full object-contain rounded-2xl shadow-2xl transition-all duration-500"
         />
 
-        {/* INDICADORES (Puntos) */}
-        {/* Los cambié a gris (gray-300/gray-800) porque al no haber fondo oscuro, 
-            si fueran blancos no se verían sobre el fondo de tu página web */}
+        {/* INDICADORES */}
         <div className="absolute bottom-4 flex space-x-2">
           {SLIDES.map((_, index) => (
             <button

@@ -12,7 +12,6 @@ const Index = () => {
         <Hero />
         <Services />
         <About />
-        <AutoCarousel />
         <Footer />
       </main>
       <FloatingWhatsApp />

@@ -5,40 +5,42 @@ const services = [
   {
     icon: FileText,
     title: 'Pasaporte Mexicano',
-    description: `Asesoría y revisión de tu documentación para tramitar tu pasaporte.
-Gestión de cita ante Secretaría de Relaciones Exteriores en México o alguna representación consular del país en el extranjero.
-OP 7 para menores de edad.
-Juicios de Jurisdicción Voluntaria para menores de edad.`,
+    description: `• Asesoría y revisión de documentación para tramitar tu pasaporte.
+• Gestión de cita ante Secretaría de Relaciones Exteriores o representación consular.
+• Elaboración de OP 7 para menores de edad.
+• Juicios de Jurisdicción Voluntaria para menores.`,
   },
   {
     icon: Building2,
     title: 'Gestión de Visa Americana',
-    description: `Asesoría para correcto llenado de tu solicitud de visa.
-Mejoramiento de tu perfil como solicitante.
-Adelanto de citas.
-Asesoramiento para tu entrevista consular.
-Asesoría para primera vez y renovación.`,
+    description: `• Asesoría para el correcto llenado de tu solicitud DS-160.
+• Revisión y mejoramiento de tu perfil como solicitante.
+• Intentos de adelanto de cita (cuando aplica).
+• Preparación para entrevista consular.
+• Asesoría para primera vez y renovación.`,
   },
   {
     icon: Plane,
     title: 'Gestión de Visa Canadiense',
-    description: `Asesoramiento para obtención de tu visa canadiense.
-Revisión de documentos y guía en tu itinerario tentativo de viaje.`,
+    description: `• Asesoría para tramitar tu visa canadiense.
+• Revisión de documentos.
+• Guía para armar tu itinerario tentativo de viaje.`,
   },
   {
     icon: BookOpen,
     title: 'Programas de Verano en USA',
-    description: `¿Estás buscando pasar tu verano colaborando en un campamento de verano en USA?
-Ser estudiante universitario (INDISPENSABLE).
-Nivel de inglés básico.`,
+    description: `• Oportunidades para trabajar en campamentos de verano en Estados Unidos.
+• Ser estudiante universitario (indispensable).
+• Nivel de inglés básico.`,
   },
   {
     icon: FileText,
     title: 'Otros Servicios Legales',
-    description: `¿No puedes ver el trámite que necesitas? Agenda una cita y déjanos escucharte.  
-Trabajamos principalmente en el Estado de Puebla y Guerrero.`,
+    description: `• Si no encuentras tu trámite, agenda una cita y cuéntanos tu caso.
+• Trabajamos principalmente en los estados de Puebla y Guerrero.`,
   },
 ];
+
 
 export function Services() {
   return (
