@@ -1,37 +1,51 @@
 import React, { useState, useEffect } from 'react';
 
-const SLIDES = [
-  { id: 1, url: "/pepe.jpeg", alt: "Foto 1" },
-  { id: 2, url: "/pepe (1).jpeg", alt: "Foto 2" },
-  { id: 3, url: "/pepe (2).jpeg", alt: "Foto 3" },
-  { id: 4, url: "/pepe (3).jpeg", alt: "Foto 4" }
-];
+// Definimos la estructura que debe tener cada imagen
+interface CarouselImage {
+  id: number;
+  url: string;
+  alt: string;
+}
 
-const AutoCarousel = () => {
+interface AutoCarouselProps {
+  images: CarouselImage[]; // Recibe un array de imágenes
+}
+
+const AutoCarousel = ({ images }: AutoCarouselProps) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
+  // Reiniciar índice si cambian las imágenes (seguridad)
   useEffect(() => {
+    setCurrentIndex(0);
+  }, [images]);
+
+  useEffect(() => {
+    // Si no hay imágenes, no iniciamos el intervalo
+    if (!images || images.length === 0) return;
+
     const interval = setInterval(() => {
-      setCurrentIndex((prev) => (prev === SLIDES.length - 1 ? 0 : prev + 1));
+      setCurrentIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
     }, 3000);
     return () => clearInterval(interval);
-  }, []);
+  }, [images]); // Agregamos images a la dependencia
 
-  // NOTA: Cambié la className de section para quitar 'py-8 my-8' y que se alinee con el texto
+  // Renderizado condicional si no hay imágenes
+  if (!images || images.length === 0) return null;
+
   return (
     <section className="w-full h-full flex flex-col justify-center">
-      <div className="relative w-full h-[500px] flex justify-center items-center">
+      <div className="relative w-full h-[400px] md:h-[500px] flex justify-center items-center">
         
         {/* FOTO */}
         <img
-          src={SLIDES[currentIndex].url}
-          alt={SLIDES[currentIndex].alt}
-          className="max-h-full max-w-full object-contain rounded-2xl shadow-2xl transition-all duration-500"
+          src={images[currentIndex].url}
+          alt={images[currentIndex].alt}
+          className="w-full h-full object-contain rounded-2xl shadow-2xl transition-all duration-500"
         />
 
         {/* INDICADORES */}
         <div className="absolute bottom-4 flex space-x-2">
-          {SLIDES.map((_, index) => (
+          {images.map((_, index) => (
             <button
               key={index}
               onClick={() => setCurrentIndex(index)}

@@ -1,16 +1,20 @@
-import AutoCarousel from './AutoCarousel'; // Asegúrate de importar el componente
+import AutoCarousel from './AutoCarousel';
+
+// Definimos las fotos de About aquí
+const ABOUT_IMAGES = [
+  { id: 1, url: "/pepe.jpeg", alt: "Foto 1" },
+  { id: 2, url: "/pepe (1).jpeg", alt: "Foto 2" },
+  { id: 3, url: "/pepe (2).jpeg", alt: "Foto 3" },
+  { id: 4, url: "/pepe (3).jpeg", alt: "Foto 4" }
+];
 
 export function About() {
   return (
     <section className="py-24 px-4 bg-background">
       <div className="max-w-6xl mx-auto">
         
-        {/* CAMBIO CLAVE: md:grid-cols-2 
-            Esto crea dos columnas en pantallas medianas/grandes.
-            En móviles (default) seguirá siendo 1 columna. */}
         <div className="grid md:grid-cols-2 gap-12 items-center">
-
-          {/* COLUMNA 1: Texto */}
+           {/* COLUMNA 1: Texto */}
           <div className="order-2 md:order-1"> 
             {/* Nota: Agregué 'order' por si quieres que en celular salga primero la foto. 
                 Si quieres texto primero en cel, quita las clases 'order-...' */}
@@ -55,7 +59,8 @@ export function About() {
 
           {/* COLUMNA 2: Carrusel de Fotos */}
           <div className="order-1 md:order-2 w-full">
-            <AutoCarousel />
+            {/* AQUI EL CAMBIO: Pasamos las imágenes como prop */}
+            <AutoCarousel images={ABOUT_IMAGES} />
           </div>
 
         </div>

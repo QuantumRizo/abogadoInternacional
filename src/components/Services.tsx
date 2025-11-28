@@ -1,13 +1,24 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { FileText, Plane, Building2, BookOpen } from 'lucide-react';
+import AutoCarousel from './AutoCarousel'; // Importamos el componente
+
+// Imágenes para el carrusel de Servicios (Casos de éxito)
+const SUCCESS_STORIES_IMAGES = [
+  { id: 1, url: "/caso1.jpg", alt: "Visa Aprobada Caso 1" },
+  { id: 2, url: "/caso2.jpg", alt: "Visa Aprobada Caso 2" },
+  { id: 3, url: "/caso3.jpg", alt: "Visa Aprobada Caso 3" },
+  { id: 4, url: "/caso4.jpg", alt: "Visa Aprobada Caso 4" },
+  { id: 5, url: "/caso5.jpg", alt: "Visa Aprobada Caso 5" },
+];
 
 const services = [
+  // ... (tu lista de servicios se mantiene igual)
   {
     icon: FileText,
     title: 'Pasaporte Mexicano',
     description: `• Asesoría y revisión de documentación para tramitar tu pasaporte.
 • Gestión de cita ante Secretaría de Relaciones Exteriores o representación consular.
-• Elaboración de OP 7 para menores de edad.
+• OP 7
 • Juicios de Jurisdicción Voluntaria para menores.`,
   },
   {
@@ -15,7 +26,7 @@ const services = [
     title: 'Gestión de Visa Americana',
     description: `• Asesoría para el correcto llenado de tu solicitud DS-160.
 • Revisión y mejoramiento de tu perfil como solicitante.
-• Intentos de adelanto de cita (cuando aplica).
+• Adelanto de cita consular.
 • Preparación para entrevista consular.
 • Asesoría para primera vez y renovación.`,
   },
@@ -47,19 +58,34 @@ export function Services() {
     <section className="py-24 px-4 bg-muted">
       <div className="max-w-7xl mx-auto">
 
-        {/* === TEXTO DE USA ARRIBA === */}
-        <div className="text-center mb-20">
-          <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
-            USA: Vive el sueño, viaja la emoción. Tu próxima gran historia empieza en Estados Unidos.
-          </h2>
+        {/* === SECCIÓN USA + CARRUSEL (NUEVO LAYOUT) === */}
+        {/* Usamos grid-cols-2 para dividir pantalla en desktop */}
+        <div className="grid md:grid-cols-2 gap-12 items-center mb-24">
+          
+          {/* Columna Izquierda: Texto */}
+          <div className="text-left">
+            <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
+              USA: Vive el sueño, viaja la emoción.
+              <span className="block text-accent mt-2">Tu próxima gran historia empieza aquí.</span>
+            </h2>
 
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-            “Viajar a Estados Unidos nunca ha estado tan al alcance de tu historia. Permítenos acompañarte en cada paso para que disfrutes un viaje seguro, emocionante y hecho completamente a tu estilo.”
-          </p>
+            <p className="text-xl text-muted-foreground leading-relaxed">
+              “Viajar a Estados Unidos nunca ha estado tan al alcance de tu historia. Permítenos acompañarte en cada paso para que disfrutes un viaje seguro, emocionante y hecho completamente a tu estilo.”
+            </p>
+          </div>
+
+          {/* Columna Derecha: Carrusel de Casos de Éxito */}
+          <div className="w-full">
+             <AutoCarousel images={SUCCESS_STORIES_IMAGES} />
+             <p className="text-center text-sm text-muted-foreground mt-4 italic">
+               Casos de éxito y visas aprobadas de nuestros clientes
+             </p>
+          </div>
+
         </div>
-        {/* === FIN DEL TEXTO DE USA === */}
+        {/* === FIN SECCIÓN USA === */}
 
-        <div className="text-center mb-16">
+        <div className="text-center mb-16 border-t border-border pt-16">
           <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
             Servicios Profesionales
           </h2>
