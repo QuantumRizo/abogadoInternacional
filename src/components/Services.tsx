@@ -76,7 +76,7 @@ export function Services() {
 
           {/* Columna Derecha: Carrusel de Casos de Éxito */}
           <div className="w-full">
-             <AutoCarousel images={SUCCESS_STORIES_IMAGES} />
+             <AutoCarousel images={SUCCESS_STORIES_IMAGES} height="300px" />
              <p className="text-center text-sm text-muted-foreground mt-4 italic">
                Casos de éxito y visas aprobadas de nuestros clientes
              </p>

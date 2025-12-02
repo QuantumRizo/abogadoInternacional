@@ -60,7 +60,8 @@ export function About() {
           {/* COLUMNA 2: Carrusel de Fotos */}
           <div className="order-1 md:order-2 w-full">
             {/* AQUI EL CAMBIO: Pasamos las imágenes como prop */}
-            <AutoCarousel images={ABOUT_IMAGES} />
+            <AutoCarousel images={ABOUT_IMAGES} height="450px"/>
+            
           </div>
 
         </div>
