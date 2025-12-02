@@ -47,6 +47,14 @@ export function Footer() {
 
         <div className="border-t border-primary-foreground/20 pt-8 text-center text-primary-foreground/60">
           <p>&copy; {currentYear} Alfredo Miranda. Todos los derechos reservados.</p>
+          <a 
+            href="https://davidrizo.vercel.app/" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="text-[10px] hover:text-muted-foreground transition-colors uppercase tracking-wider"
+          >
+            Created by David Rizo
+          </a>
         </div>
       </div>
     </footer>
