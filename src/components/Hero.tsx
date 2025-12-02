@@ -13,7 +13,7 @@ export function Hero() {
   }, []);
 
   return (
-    <section className="relative h-screen flex items-center justify-center overflow-hidden">
+    <section className="relative h-[70vh] flex items-center justify-center overflow-hidden">
       {/* Fondo con parallax */}
       <div 
         className="absolute inset-0 bg-gradient-to-b from-primary via-primary/95 to-primary/90"
