@@ -15,7 +15,7 @@ export function Hero() {
   return (
     <section className="relative h-[70vh] flex items-center justify-center overflow-hidden">
       {/* Fondo con parallax */}
-      <div 
+      <div
         className="absolute inset-0 bg-gradient-to-b from-primary via-primary/95 to-primary/90"
         style={{ transform: `translateY(${scrollY * 0.5}px)` }}
       >
@@ -26,7 +26,7 @@ export function Hero() {
       <div className="absolute inset-0 bg-gradient-to-t from-primary/50 to-transparent"></div>
 
       {/* Contenido */}
-      <div 
+      <div
         className="relative z-10 text-center px-4 max-w-4xl mx-auto"
         style={{ transform: `translateY(${scrollY * -0.2}px)` }}
       >
@@ -34,22 +34,28 @@ export function Hero() {
           Experto en Derecho Migratorio
         </h1>
         <p className="text-xl md:text-2xl text-primary-foreground/90 mb-8 max-w-2xl mx-auto text-balance">
-  Asesoría legal profesional para obtención de tus documentos de viaje y solución a tus situaciones legales. 
-</p>
+          Asesoría legal profesional para obtención de tus documentos de viaje y solución a tus situaciones legales.
+        </p>
         <div className="flex flex-col gap-4 text-primary-foreground/90">
-  
 
-  <Button 
-    size="lg" 
-    onClick={() => navigate('/citas')}
-    className="bg-secondary text-secondary-foreground hover:bg-secondary/90 text-lg px-8 py-6 shadow-2xl hover:scale-105 transition-transform"
-  >
-    Agendar Cita
-  </Button>
-  <p className="text-lg leading-snug">
-  Do you need legal assistance in English? Make an appointment by clicking the “Agendar Cita” button above.
-</p>
-</div>
+
+          <Button
+            size="lg"
+            asChild
+            className="bg-secondary text-secondary-foreground hover:bg-secondary/90 text-lg px-8 py-6 shadow-2xl hover:scale-105 transition-transform"
+          >
+            <a
+              href="https://wa.me/522221025628?text=Hola,%20me%20gustaría%20agendar%20una%20cita"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Agendar Cita
+            </a>
+          </Button>
+          <p className="text-lg leading-snug">
+            Do you need legal assistance in English? Make an appointment by clicking the “Agendar Cita” button above.
+          </p>
+        </div>
 
       </div>
     </section>
