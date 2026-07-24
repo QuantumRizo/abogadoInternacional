@@ -45,7 +45,7 @@ export function Hero() {
             className="bg-secondary text-secondary-foreground hover:bg-secondary/90 text-lg px-8 py-6 shadow-2xl hover:scale-105 transition-transform"
           >
             <a
-              href="https://wa.me/522221025628?text=Hola,%20me%20gustaría%20agendar%20una%20cita"
+              href="https://wa.me/522222933552?text=Hola,%20me%20gustaría%20agendar%20una%20cita"
               target="_blank"
               rel="noopener noreferrer"
             >
